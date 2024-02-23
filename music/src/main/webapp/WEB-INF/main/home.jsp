@@ -185,11 +185,11 @@
                 <c:forEach var="showvo" items="${ Topshow}">
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                         <div class="about-img position-relative overflow-hidden p-5 pe-0">
-                            <img class="img-fluid w-100" src="${showvo.sposter }" style="height:560px">
+                            <img class="img-fluid w-100" src="${showvo.sposter }" style="height:560px;width: 480px !important">
                         </div>
                     </div>
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                        <h1 class="mb-4">${showvo.stitle }</h1>
+                        <h1 class="mb-4" style="font-size: 2rem">${showvo.stitle }</h1>
                         <p><i class="fa fa-check text-primary me-3">&nbsp;${showvo.sdate }</i></p>
                         <p><i class="fa fa-check text-primary me-3">&nbsp;${showvo.sloc }</i></p>
                         <p><i class="fa fa-check text-primary me-3">&nbsp;R석 : 70,000원</i></p>

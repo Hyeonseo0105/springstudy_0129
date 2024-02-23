@@ -57,10 +57,11 @@ public class ShowDAO {
 	// 상세페이지
 	public ShowVO showDetailData(int sno)
 	{
+		mapper.showHitIncrement(sno);
 		return mapper.showDetailData(sno);
 	}
 }
-//	public static void main(String[] args) {
+//	public static void main(String[] args) {		
 //
 //		String fileName = "c:\\show\\show.txt";
 //        String jdbcURL = "jdbc:oracle:thin:@localhost:1521:XE";

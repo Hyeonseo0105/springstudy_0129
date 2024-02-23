@@ -14,35 +14,32 @@
 <div class="container-xxl py-5">
             <div class="container" style="height: 400px">
                 <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="testimonial-item bg-light rounded p-3" style="width: 216px; height: 400px;background-color: white !important">
+                    <div class="testimonial-item bg-light rounded p-3" style="background-color: white !important">
 
                             <div class="d-flex align-items-center">
-                                <img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202402/20240201/20240201-48529.jpg/dims/quality/70/" style="width: 216px; height: 200px;">
-                                <h6 class="fw-bold mb-1">[창원] 2024 YB TOUR LIGHTS ; INFINITY</h6>
-
+                                <a href="../show/detail.do?sno=10"><img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202402/20240201/20240201-48529.jpg/dims/quality/70/" style="width: 264px; height: 400px;"></a>
+                                <a href="../show/detail.do?sno=52"><img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202402/20240207/20240207-48693.jpg/dims/quality/70/" style="width: 264px; height: 400px;margin-left: 10px"></a>
                                 <div class="ps-3">
-                                    
                                 </div>
                             </div>
 
                     </div>
-                    <div class="testimonial-item bg-light rounded p-3" style="width: 216px; height: 302px;background-color: white !important">
+                    <div class="testimonial-item bg-light rounded p-3" style="background-color: white !important">
                             <div class="d-flex align-items-center">
-                                <img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202401/20240122/20240122-47720.jpg/dims/quality/70/" style="width: 216px; height: 302px;">
-                                <h6 class="fw-bold mb-1">뮤지컬 스쿨 오브 락 월드투어-서울 (Musical School Of Rock)</h6>
+                                <a href="../show/detail.do?sno=78"><img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202401/20240118/20240118-48406.jpg/dims/quality/70/" style="width: 264px; height: 400px;"></a>
+                                <a href="../show/detail.do?sno=122"><img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202401/20240108/20240108-48280.jpg/dims/quality/70/" style="width: 264px; height: 400px;margin-left: 10px"></a>
                                 <div class="ps-3">
                                 <div></div>
-                                    
                                 </div>
                             </div>
                     </div>
-                    <div class="testimonial-item bg-light rounded p-3" style="width: 216px; height: 302px;background-color: white !important">
+                    <div class="testimonial-item bg-light rounded p-3" style="background-color: white !important">
 
                             <div class="d-flex align-items-center">
-                                <img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202402/20240201/20240201-48622.jpg/dims/quality/70/" style="width: 216px; height: 302px;">
+                                <a href="../show/detail.do?sno=234"><img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202312/20231220/20231220-48129_1.jpg/dims/quality/70/" style="width: 264px; height: 400px;"></a>
+                                <a href="../show/detail.do?sno=290"><img class="img-fluid flex-shrink-0" src="http://tkfile.yes24.com/upload2/PerfBlog/202401/20240122/20240122-48444.jpg/dims/quality/70/" style="width: 264px; height: 400px;margin-left: 10px"></a>
                                 <div></div>
                                 <div class="ps-3">
-                                    <h6 class="fw-bold mb-1">다닐 트리포노프 피아노 리사이틀 (4.2)</h6>
                                 </div>
                             </div>
                     </div>
@@ -59,7 +56,7 @@
                   <a :href="'../show/detail.do?sno='+vo.sno"><img class="img-fluid" :src="vo.sposter"></a>
                 </div>
                 <div class="text-center p-4 mt-3">
-                 <small class="fw-bold mb-0" style="color: black">{{vo.stitle}}</small>
+                 <a :href="'../show/detail.do?sno='+vo.sno"><small class="fw-bold mb-0" style="color: black">{{vo.stitle}}</small></a>
                  <div></div>
                  <small class="fw-bold mb-0">{{vo.sdate}}</small>
                 </div>
@@ -77,10 +74,10 @@
             <div class="team-item rounded overflow-hidden" style="width: 306px;height: 588.4px;">
                 <div class="position-relative">
                   
-                  <img class="img-fluid" :src="vo.sposter">
+                  <a :href="'../show/detail.do?sno='+vo.sno"><img class="img-fluid" :src="vo.sposter"></a>
                 </div>
                 <div class="text-center p-4 mt-3">
-                 <small class="fw-bold mb-0" style="color: black">{{vo.stitle}}</small>
+                 <a :href="'../show/detail.do?sno='+vo.sno"><small class="fw-bold mb-0" style="color: black">{{vo.stitle}}</small></a>
                  <div></div>
                  <small class="fw-bold mb-0">{{vo.sdate}}</small>
                 </div>
@@ -98,10 +95,10 @@
             <div class="team-item rounded overflow-hidden" style="width: 306px;height: 588.4px;">
                 <div class="position-relative">
                   
-                  <img class="img-fluid" :src="vo.sposter">
+                  <a :href="'../show/detail.do?sno='+vo.sno"><img class="img-fluid" :src="vo.sposter"></a>
                 </div>
                 <div class="text-center p-4 mt-3">
-                 <small class="fw-bold mb-0" style="color: black">{{vo.stitle}}</small>
+                 <a :href="'../show/detail.do?sno='+vo.sno"><small class="fw-bold mb-0" style="color: black">{{vo.stitle}}</small></a>
                  <div></div>
                  <small class="fw-bold mb-0">{{vo.sdate}}</small>
                 </div>

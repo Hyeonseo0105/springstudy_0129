@@ -24,6 +24,7 @@ import lombok.Data;
 
 @Data
 public class ShowVO {
+	private int hit;
 	private int sno,scate;
 	private String sdetail,sposter,stitle,sdate,sloc,sgrade,shour,sperformer,sseat,stime,sdelivery,sdeposter,sdeloc,saddress,sphone;
 }

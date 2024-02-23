@@ -4,6 +4,8 @@ import java.util.*;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
 import com.sist.vo.ShowVO;
 
 import lombok.experimental.PackagePrivate;
@@ -50,13 +52,22 @@ public interface ShowMapper {
 	// 상세 페이지
 	@Select("SELECT * FROM showInfo "
 			+"WHERE sno=#{sno}")
-	public ShowVO showDetailData(int sno);	
+	public ShowVO showDetailData(int sno);
 	
+	@Update("UPDATE showInfo SET "
+			+"hit=hit+1 "
+			+"WHERE sno=#{sno}")
+	public void showHitIncrement(int sno);
+	
+	// 예매 페이지
+	@Select("SELECT * FROM showInfo "
+			+"WHERE sno=#{sno}")
+	public ShowVO showReserveData(int sno);
 	
 	// 메인에 top1
-	@Select("SELECT sno,stitle,sloc,sposter,sdate,sperformer "
+	@Select("SELECT sno,stitle,sloc,sposter,sdate,sperformer,rownum "
 			+"FROM (SELECT sno,stitle,sloc,sposter,sdate,sperformer "
-			+"FROM showInfo) "
-			+"WHERE sno<=1")
+			+"FROM showInfo ORDER BY hit DESC) "
+			+"WHERE rownum<=1")
 	public List<ShowVO> Topshow();
 }
