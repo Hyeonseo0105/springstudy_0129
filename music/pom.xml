@@ -115,7 +115,7 @@
 	    <dependency>
 		    <groupId>org.jsoup</groupId>
 		    <artifactId>jsoup</artifactId>
-		    <version>1.12.1</version>
+		    <version>1.10.3</version>
 		</dependency>	
 		<!-- JSON -->
 		<dependency>
@@ -524,6 +524,10 @@
 
     <build>
         <plugins>
+          <plugin>
+			  <artifactId>maven-war-plugin</artifactId>
+			  <version>3.2.2</version>
+			</plugin>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <version>2.9</version>

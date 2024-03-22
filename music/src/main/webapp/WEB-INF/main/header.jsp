@@ -59,6 +59,28 @@ $(function(){
                                 <a href="../show/classic.do" class="dropdown-item">클래식</a>
                             </div>
                         </div>
+                        <c:if test="${sessionScope.userId!=null }">
+    <div class="fl_right">
+      <ul class="inline">
+        <li><i class="fa fa-phone"></i> ${sessionScope.userName }(<sec:authorize access="hasRole('ROLE_ADMIN')">관리자</sec:authorize>
+         <sec:authorize access="hasRole('ROLE_USER')">일반사용자</sec:authorize>
+        )</li>
+        <li>님 로그인되었습니다</li>
+      </ul>
+    </div>
+    </c:if>
+    <sec:authorize access="hasRole('ROLE_USER')"> 
+        <li><a href="../mypage/showreserve.do">마이페이지</a></li>
+      </sec:authorize>
+      <sec:authorize access="hasRole('ROLE_ADMIN')"> 
+        <li><a href="../adminpage/adminpage.do">관리자페이지</a></li>
+      </sec:authorize>
+    <c:if test="${principal.username==null }">
+       <li class="nav navbar-nav navbar-right"><a href="../member/login.do"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </c:if>
+      <c:if test="${principal.username!=null }">
+       <li class="nav navbar-nav navbar-right"><a href="../member/logout.do"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </c:if>
                         <a href="../etc/contact.html" class="nav-item nav-link">Contact</a>
                     </div>
                     <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Add Property</a>

@@ -60,7 +60,7 @@ $(function() {
       <span id="price2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{show_detail.sperformer}}</span>
 <div style="height: 30px"></div>
       <a style="color:black;font-weight: bold">가격</a>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/seat.png">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../resources/images/seat.png">
 <div style="height: 30px"></div>
       <div style="margin-top: 0px"><a class="btn btn-primary py-1 px-3 mt-1 wow fadeInUp" :href="'../show/reserve.do?sno='+show_detail.sno" data-wow-delay="0.1s" style="margin-left: 85%;">예매하기</a></div>
     </td>
@@ -77,12 +77,15 @@ $(function() {
   </table>
   <table class="table">
   <tr>
-    <td>좋아요</td>
+    <span v-if="sessionId" class="review_btns" @click="likeBtn()">
+	  <img src="../resources/images/heart1.png">
+	</span>
   </tr>
   </table>
 <a @click="showInfo" id="info" style="font-size: x-large;margin-left: 41%;">상세정보&nbsp;|&nbsp;</a>
-<a @click="showReview" id="review" style="font-size: x-large;">리뷰</a>
+<a @click="showReview" id="review" style="font-size: x-large;">리뷰<small>({{count}}건)</small></a>
 <div style="height: 10px;"></div>
+
   <table class="table text-center" v-show="isShowInfo">
     <tr v-for="dp in sdeposter">
       <td style="padding: 0%;border-bottom-width: 0px">
@@ -95,25 +98,45 @@ $(function() {
     <tr>
       <td>
         <h3 id="sloc" class="text-center"><i class="fa fa-map-marker" aria-hidden="true" style="color:#666565;margin-right: 5px"></i>{{show_detail.sloc}}</h3>
-          <h6 class="text-center" style="color: #666565;">{{show_detail.saddress}}&nbsp;&nbsp;|&nbsp;&nbsp;{{show_detail.sphone}}</h6>
+          <h6 class="text-center" style="color: #666565;background-color: ">{{show_detail.saddress}}&nbsp;&nbsp;|&nbsp;&nbsp;{{show_detail.sphone}}</h6>
       </td>
     </tr>
   </table>
   <div id="map"style="height:500px;width: 920.317px;margin-left: 10.7%" v-show="isShowloc2"></div>
-  <table class="table" v-show="isShowReview">
-    <s_review  v-bind:show_review="show_review"></s_review>
-  </table>
+  <table class="table" v-show="isShowReview" v-for="rvo in reply_list" style="border: 1px solid #00B98E;border-radius:1rem">
+    <tr>
+          <td class="text-left">♬{{rvo.userName}}({{rvo.dbday}})</td>
+          <td class="text-right">
+           <span class="inline" v-if="rvo.userId===sessionId">
+            <input type=button class="btn-xs btn-danger" value="수정" @click="updateForm(rvo.no)" :id="'up'+rvo.no">&nbsp;
+            <input type=button class="btn-xs btn-info" value="삭제" @click="replyDelete(rvo.no)">
+           </span>
+          </td>
+         </tr>
+         <tr>
+           <td colspan="2" class="text-left" valign="top">
+            <pre style="white-space: pre-wrap;background-color: white;border:none">{{rvo.msg}}</pre>
+           </td>
+         </tr>
+         <tr style="display:none" :id="'u'+rvo.no" class="ups">
+	       <td colspan="2">
+	         <textarea rows="4" cols="85" :id="'u_msg'+rvo.no" style="float: left">{{rvo.msg}}</textarea>
+	         <input type=button value="댓글수정" class="btn-danger"
+	          style="float: left;width: 80px;height: 86px" @click="replyUpdate(rvo.no)">
+	       </td>
+	      </tr>
+	</table>       
+	<table class="table" v-if="sessionId">
+    <tr>
+      <td>
+      <textarea rows="2" cols="85" ref="msg" style="float: left" v-model="msg"></textarea>
+      <a class="btn btn-primary py-1 px-3" style="float: left;height:50px;padding-top:10px !important" @click="replyInsert()">리뷰쓰기</a>
+      </td>
+	</tr>
+	</table>
+  
 </div>
 <script>
-  const reviewComponent={
-		  props:['show_review'],
-		  template:`<tr>
-                      <td>
-                      <h3>리뷰</h3>
-                      </td>
-  					</tr>
-  					`
-  }
   let showDetailApp=Vue.createApp({
 	  data(){
 		  return {
@@ -123,7 +146,13 @@ $(function() {
 			  isShowInfo:true,
 			  isShowReview:false,
 			  isShowloc1:true,
-			  isShowloc2:true
+			  isShowloc2:true,
+			  isShowReview:false,
+			  reply_list:[],
+	    	  sessionId:'${sessionId}',
+	    	  msg:'',
+	    	  u:0,
+	    	  count:0
 		  }
 	  },
 	  mounted(){
@@ -133,8 +162,11 @@ $(function() {
 			  }
 		  }).then(response=>{
 			  console.log(response.data)
-			  this.show_detail=response.data
-			  this.sdeposter=response.data.sdeposter.split(",")
+			  this.show_detail=response.data.show_detail
+			  this.reply_list=response.data.reply_list
+			  this.count=response.data.count
+			  this.like_list=response.data.like_list
+			  this.sdeposter=response.data.show_detail.sdeposter.split(",")
 			  if(window.kakao && window.kakao.maps)
 			  {
 				  this.initMap()
@@ -146,6 +178,57 @@ $(function() {
 		  })
 	  },
 	  methods:{
+		     likeBtn(){
+		    	 
+		     },
+	    	 updateForm(no){
+	    		$('.ups').hide();
+	    		$('#up'+no).val('수정')
+	    		if(this.u==0)
+	    		{
+	    		    this.u=1;
+	    		    $('#u'+no).show();
+	    		    $('#up'+no).val('취소')
+	    		    
+	    		}
+	    		else
+	    		{
+	    			this.u=0;
+	    			$('#u'+no).hide();
+	    		    $('#up'+no).val('수정')
+	    		}
+	    	 },
+	    	 replyDelete(no){
+	    		axios.get('../recipe/reply_delete_vue.do',{
+	    		  params:
+	    			  {
+	    			      no:no,
+	    			      sno:this.no
+	    			  }
+	    			
+	    		}).then(response=>{
+	    			this.reply_list=response.data
+	    		}) 
+	    	 },
+	    	 replyInsert(){
+	    		if(this.msg==="")
+	    		{
+	    			this.$refs.msg.focus()
+	    			return
+	    		}
+	    		
+	    		axios.post('../recipe/reply_insert_vue.do',null,{
+	    			params:{
+	    				fno:this.sno,
+	    				msg:this.msg,
+	    				typeno:5
+	    			}
+	    		}).then(response=>{
+	    			console.log(response.data)
+	    			this.reply_list=response.data
+	    			this.msg=''
+	    		})
+	    	 },
 		  showReview(){
 			  this.isShowInfo=false
 			  this.isShowReview=true
@@ -204,9 +287,6 @@ $(function() {
 			    } 
 			});
 		  }
-	  },
-	  components:{
-		  's_review':reviewComponent
 	  }
   }).mount('#showDetailApp')
 </script>

@@ -21,6 +21,9 @@ public class ShowDAO {
 
 	@Autowired
 	private ShowMapper mapper;
+	
+	@Autowired
+	private reviewMapper rMapper;
 
 	// 메인 top1
 	public List<ShowVO> Topshow()
@@ -59,6 +62,22 @@ public class ShowDAO {
 	{
 		mapper.showHitIncrement(sno);
 		return mapper.showDetailData(sno);
+	}
+	
+	// 후기
+	public List<reviewVO> replyListData(int sno)
+	{
+		return rMapper.replyListData(sno);
+	}
+	
+	public int countshowreview(int sno)
+	{
+		return rMapper.countshowreview(sno);
+	}
+	
+	public void showreplyInsert(reviewVO vo)
+	{
+		rMapper.showreplyInsert(vo);
 	}
 }
 //	public static void main(String[] args) {		

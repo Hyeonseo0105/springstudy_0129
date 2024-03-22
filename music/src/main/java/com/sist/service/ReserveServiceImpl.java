@@ -35,5 +35,23 @@ public class ReserveServiceImpl implements ReserveService {
 	public void reserveCancel(int srno) {
 		// TODO Auto-generated method stub
 		rDao.reserveCancel(srno);
+	}
+
+	@Override
+	public List<ReserveVO> reserveAdminpageData() {
+		// TODO Auto-generated method stub
+		return rDao.reserveAdminpageData();
+	}
+
+	@Override
+	public void reserveOk(int srno) {
+		// TODO Auto-generated method stub
+		rDao.reserveOk(srno);
+	}
+
+	@Override
+	public ReserveVO reserveInfoData(int srno) {
+		// TODO Auto-generated method stub
+		return rDao.reserveInfoData(srno);
 	}	
 }

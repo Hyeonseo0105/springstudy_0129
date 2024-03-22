@@ -31,4 +31,19 @@ public class ReserveDAO {
 	{
 		mapper.reserveCancel(srno);
 	}
+	
+	   public List<ReserveVO> reserveAdminpageData()
+	   {
+		   return mapper.reserveAdminpageData();
+	   }
+	   
+	   public void reserveOk(int srno)
+	   {
+		   mapper.reserveOk(srno);
+	   }
+	   
+	   public ReserveVO reserveInfoData(int srno)
+	   {
+		   return mapper.reserveInfoData(srno);
+	   }
 }

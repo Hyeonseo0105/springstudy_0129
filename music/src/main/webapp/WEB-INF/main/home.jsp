@@ -186,6 +186,7 @@
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                         <div class="about-img position-relative overflow-hidden p-5 pe-0">
                             <img class="img-fluid w-100" src="${showvo.sposter }" style="height:560px;width: 480px !important">
+                            </img>
                         </div>
                     </div>
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
@@ -193,7 +194,7 @@
                         <p><i class="fa fa-check text-primary me-3">&nbsp;${showvo.sdate }</i></p>
                         <p><i class="fa fa-check text-primary me-3">&nbsp;${showvo.sloc }</i></p>
                         <p><i class="fa fa-check text-primary me-3">&nbsp;R석 : 70,000원</i></p>
-                        <a class="btn btn-primary py-3 px-5 mt-3" href="" style="width: 201.933px;margin-left: 30%;">예매하기</a>
+                        <a class="btn btn-primary py-3 px-5 mt-3" href="../show/detail.do?sno=${ showvo.sno}" style="width: 201.933px;margin-left: 30%;">예매하기</a>
                         <a class="btn btn-primary py-3 px-5 mt-3" href="../show/main.do">공연 전체 보기</a>
                     </div>
                   </c:forEach>

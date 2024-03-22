@@ -18,4 +18,16 @@ public class ReserveController {
 		model.addAttribute("sno", sno);
 		return "show/reserve";
 	}
+	
+	@GetMapping("mypage/showreserve.do")
+   public String mypage_main()
+   {
+	   return "mypage/showreserve";
+   }
+	
+   @GetMapping("adminpage/adminpage.do")
+   public String adminpage_main()
+   {
+	   return "adminpage/adminpage";
+   }
 }

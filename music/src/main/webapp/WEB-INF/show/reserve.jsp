@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,15 @@
 td.link:hover,tr.tr_link:hover{
     cursor: pointer;
   }
+#showSeat{
+	display:inline-block;
+	width:50px;
+	height:50px;
+	vertical-align: top;
+}
+#showSeat:checked{
+	border-color: red
+}
 </style>
 </head>
 <body>
@@ -62,26 +72,67 @@ td.link:hover,tr.tr_link:hover{
 				      </table>    
 				  </div>
     </td>
-    <td width=40% style="border-bottom-width:0px;">{{ssdate}}</td>
+    
   </tr>
   <tr>
-    <td style="border-bottom-width:0px;">공연명</td>
+    <td style="border-bottom-width:0px;font-weight:700;">공연명</td>
     <td style="border-bottom-width:0px;">{{reserve_detail.stitle}}</td>
-    <td rowspan="4" style="border-bottom-width:0px;">시간</td>
+    <td rowspan="4" style="border-bottom-width:0px;" v-show="tShow" class="text-center">
+      <h2>시간</h2>
+      <span class="btn btn-xs" v-for="time in time_list" style="margin-right: 3%;background-color: #00B98E;color: white;" @click="timeSelect(time)">{{time}}</span>
+    </td>
   </tr>
   <tr>
-    <td style="border-bottom-width:0px;">공연장소</td>
+    <td style="border-bottom-width:0px;font-weight:700;">공연장소</td>
     <td style="border-bottom-width:0px;">{{reserve_detail.sloc}}</td>
   </tr>
   <tr>
-    <td style="border-bottom-width:0px;">등급</td>
+    <td style="border-bottom-width:0px;font-weight:700;">등급</td>
     <td style="border-bottom-width:0px;">{{reserve_detail.sgrade}}</td>
   </tr>
   <tr>
-    <td style="border-bottom-width:0px;">관람시간</td>
+    <td style="border-bottom-width:0px;font-weight:700;">관람시간</td>
     <td style="border-bottom-width:0px;">{{reserve_detail.shour}}</td>
   </tr>
 </table>
+<table style="margin-left: 39%;" v-show="sShow">
+
+<!-- 
+     style="margin-left: 150.3px"
+-->
+  <tr>
+    
+    <td width="10%" style="font-weight:700;">R</td>
+    <h2 class="text-center" style="padding-left: 34%" v-show="seatShow">좌석</h2>
+    <td width=90% style="border-bottom-width:0px;" rowspan="3">
+        <br/>
+        <% for(int i=1;i<=6;i++) { %>
+            <small>
+              <%=i%2==0?"2":"1" %>
+            </small>
+            <% for(int c=1;c<=10;c++){ %>
+               <input style="margin-right: 10px;margin-bottom: 10px" type="checkbox" id="showSeat" name="seat" value="<%=c %>-<%=i %>" @click="seatSelect(c)">
+        <% } %>
+        <br/>
+        <%= i%2==0?"<br/>":"" %>
+        <% } %>
+        <br>
+    </td> 
+  </tr>
+  <tr>
+    <td width="10%" style="font-weight:700;">S</td>
+  </tr>
+  <tr>
+    <td width="10%" style="padding-bottom: 2%;font-weight:700;">A</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="text-center" v-show="okShow">
+      <input type=button value="예약" @click="reserveOk()">
+      <input type="button" value="취소" @click="goback()">    
+    </td>
+  </tr>
+</table>
+<div style="height: 50px"></div>
 </div>
 <script>
 let reserveApp=Vue.createApp({
@@ -100,8 +151,13 @@ let reserveApp=Vue.createApp({
 		      endOfDay: null,
 		      memoDatas: [],
 		      realDay:new Date().getDate(),
-		      ssdate:'',
-		      esdate:''
+		      time_list:['15:00','19:00','22:00'],
+		      tShow:false,
+		      time:'',
+		      sShow:false,
+		      seatShow:false,
+		      okShow:false,
+		      c:0
 		  }
 	  },
 	  mounted(){
@@ -113,16 +169,40 @@ let reserveApp=Vue.createApp({
 		  }).then(response=>{
 			  console.log(response.data)
 			  this.reserve_detail=response.data
-			  sssdate=response.data.sdate.substring(0,response.data.sdate.indexOf("~"));
-			  this.ssdate=sssdate.substring(8);
-			  eesdate=response.data.sdate.substring(response.data.sdate.indexOf("~")+2);
-			  this.esdate=eesdate.substring(8)
-			  console.log(this.ssdate)
-			  console.log(this.esdate)
-			  
 		  })
 	  },
 	  methods:{
+		  reserveOk(){
+				 axios.post('../show/reserve_ok.do',null,{
+					 params:{
+						 sno:this.sno,
+						 rDate:this.currentYear+"년도 "+this.currentMonth+"월 "+this.currentDay,
+						 rTime:this.time,
+						 rSeat:this.c
+					 }
+				 }).then(response=>{
+					 if(response.data==='yes')
+				     {
+						 location.href="../mypage/showreserve.do" 
+				     }
+					 else
+				     {
+						 alert("공연 예매에 실패하셨습니다")
+				     }
+				 }).catch(error=>{
+					 console.log(error)
+				 });
+			   },
+		  timeSelect(time){
+				 this.time=time;
+				 this.sShow=true;
+				 this.seatShow=true;
+			   },
+		  seatSelect(c){
+				 this.c=c;
+				 console.log(c);
+				 this.okShow=true;
+			   },
 		  init(){
 		        this.currentMonthStartWeekIndex = this.getStartWeek(this.currentYear, this.currentMonth);
 		        this.endOfDay = this.getEndOfDay(this.currentYear, this.currentMonth);
@@ -230,7 +310,10 @@ let reserveApp=Vue.createApp({
 		      change(day){
 		    	 this.currentDay=day;
 		    	 this.tShow=true
-		      }
+		      },
+		      goback(){
+				  location.href="../show/list.do"
+			  }
 	  }
 }).mount('#reserveApp')
 </script>

@@ -10,4 +10,7 @@ public interface ReserveService {
 	public void showReserveInsert(ReserveVO vo);
 	public List<ReserveVO> reserveMypageData(String userId);
 	public void reserveCancel(int srno);
+    public List<ReserveVO> reserveAdminpageData();
+    public void reserveOk(int srno);
+    public ReserveVO reserveInfoData(int srno);
 }

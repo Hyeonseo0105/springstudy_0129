@@ -2,6 +2,8 @@ package com.sist.web;
 
 import java.util.*;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +33,18 @@ public class ShowController {
 	}
 	
 	@GetMapping("show/detail.do")
-	public String show_detail(int sno,Model model)
+	public String show_detail(int sno,Model model,HttpSession session)
 	{
-		model.addAttribute("sno", sno);
+		String userId=(String)session.getAttribute("userId");
+	    String sessionId="";
+	    
+	    if(userId==null)
+		    sessionId="";
+	    else
+		   sessionId=userId;
+	    
+	    model.addAttribute("sessionId", sessionId);
+	    model.addAttribute("sno", sno);
 		return "show/detail";
 	}
 }

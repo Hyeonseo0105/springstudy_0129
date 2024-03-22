@@ -7,8 +7,9 @@
     <put-attribute name="home" value="/WEB-INF/main/home.jsp"/>
     <put-attribute name="footer" value="/WEB-INF/main/footer.jsp"/>
   </definition>
-  <!-- return "board/insert" -->
+
   <definition name="*/*" extends="main">
     <put-attribute name="home" value="/WEB-INF/{1}/{2}.jsp"/>
   </definition>
 </tiles-definitions>
+
